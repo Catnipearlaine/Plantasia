@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Control</title>
+    <style>
+      #videoPlayer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+        display: none;
+      }
+    </style>
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+  </head>
+
+  <body>
+    <!-- YouTube iframe embedded video (without autoplay) -->
+    <iframe
+      id="videoPlayer"
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/V9cO9A8aGFM?enablejsapi=1&autohide=1"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+
+    <script>
+      let videoPlayer = document.getElementById("videoPlayer");
+      let isPlaying = false;
+
+      // Function to handle play and pause on mouse press
+      function startPlayingYouTubeVideo() {
+        if (!isPlaying) {
+          videoPlayer.style.display = "block";
+          videoPlayer.contentWindow.postMessage(
+            '{"event":"command","func":"playVideo","args":""}',
+            "*"
+          );
+          isPlaying = true;
+        } else {
+          videoPlayer.contentWindow.postMessage(
+            '{"event":"command","func":"pauseVideo","args":""}',
+            "*"
+          );
+          videoPlayer.style.display = "none";
+          isPlaying = false;
+        }
+      }
+
+      function stopPlayingYouTubeVideo() {
+        const videoPlayer = document.getElementById("videoPlayer");
+        videoPlayer.contentWindow.postMessage(
+          '{"event":"command","func":"pauseVideo","args":""}',
+          "*"
+        );
+        isPlaying = false;
+      }
+    </script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
