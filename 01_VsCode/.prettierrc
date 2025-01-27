@@ -1,0 +1,9 @@
+{
+  "semi": true, // No semicolons at the end of statements
+  "singleQuote": true, // Use single quotes instead of double quotes
+  "tabWidth": 2, // Set the number of spaces per indentation level
+  "useTabs": false, // Use spaces instead of tabs for indentation
+  "trailingComma": "es5", // Add trailing commas where valid in ES5 (objects, arrays, etc.)
+  "bracketSpacing": true, // Print spaces between brackets in object literals
+  "printWidth": 80 // Set the maximum line length before wrapping
+}
