@@ -210,11 +210,6 @@ function resetFlowers() {
 
 function toggleMic() {
   micOn = !micOn;
-  if (micOn && micLevel > 0.005) {
-    console.log("Microphone is now active.");
-  } else {
-    console.log("Microphone is now inactive.");
-  }
 }
 
 document.addEventListener("keydown", (event) => {
