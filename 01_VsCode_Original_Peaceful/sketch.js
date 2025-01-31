@@ -218,6 +218,10 @@ function toggleMic() {
 }
 
 document.addEventListener("keydown", (event) => {
+  if (firstStart) {
+    startMic();
+    firstStart = false;
+  }
   if (event.key === " ") {
     toggleMic();
   }

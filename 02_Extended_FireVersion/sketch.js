@@ -20,6 +20,8 @@ let timer = 0;
 let spawnInterval = 60;
 let maxFlowers = 50;
 
+let firstStart = true;
+
 function preload() {
   img1 = loadImage("./assets/images/base.png");
   img2 = loadImage("./assets/images/on.png");
@@ -34,7 +36,6 @@ function setup() {
   noStroke();
   ellipseMode(CORNER);
   mic = new p5.AudioIn();
-  mic.start();
 
   fft = new p5.FFT();
   fft.setInput(mic);
@@ -58,6 +59,10 @@ function setup() {
     growthSpeed.push(random(0.005, 0.05));
     accumulatedSound.push(0);
   }
+}
+
+function startMic() {
+  mic.start();
 }
 
 function addSomeFlowers() {
@@ -207,6 +212,10 @@ function toggleMic() {
 }
 
 document.addEventListener("keydown", (event) => {
+  if (firstStart) {
+    startMic();
+    firstStart = false;
+  }
   if (event.key === " ") {
     toggleMic();
   }
@@ -216,6 +225,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 function mousePressed() {
+  if (firstStart) {
+    startMic();
+    firstStart = false;
+  }
+
   let imgWidth2 = 232 * scaleFactor;
   //let imgHeight2 = 332 * scaleFactor;
   let imgX2 = windowWidth - 210;
