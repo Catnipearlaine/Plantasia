@@ -41,6 +41,19 @@ function setup() {
   // Initialize microphone
   mic = new p5.AudioIn();
 
+  document.addEventListener("keydown", (event) => {
+    if (firstStart) {
+      startMic();
+      firstStart = false;
+    }
+    if (event.key === " ") {
+      toggleMic();
+    }
+    if (event.key === "0") {
+      resetFlowers();
+    }
+  });
+
   PALETTE = [
     color(162, 148, 249, 120), //bright light purple
     color(191, 236, 255, 120), //light blue
@@ -60,10 +73,6 @@ function setup() {
     growthSpeed.push(random(0.02, 0.1));
     accumulatedSound.push(0);
   }
-}
-
-function startMic() {
-  mic.start();
 }
 
 function addSomeFlowers() {
@@ -212,18 +221,16 @@ function toggleMic() {
   micOn = !micOn;
 }
 
-document.addEventListener("keydown", (event) => {
-  if (firstStart) {
-    startMic();
-    firstStart = false;
-  }
-  if (event.key === " ") {
-    toggleMic();
-  }
-  if (event.key === "0") {
-    resetFlowers();
-  }
-});
+function startMic() {
+  userStartAudio()
+    .then(() => {
+      mic.start();
+      console.log("Microphone started");
+    })
+    .catch((err) => {
+      console.error("Microphone access denied:", err);
+    });
+}
 
 function mousePressed() {
   if (firstStart) {

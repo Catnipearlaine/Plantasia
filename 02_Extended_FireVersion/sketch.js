@@ -40,6 +40,19 @@ function setup() {
   fft = new p5.FFT();
   fft.setInput(mic);
 
+  document.addEventListener("keydown", (event) => {
+    if (firstStart) {
+      startMic();
+      firstStart = false;
+    }
+    if (event.key === " ") {
+      toggleMic();
+    }
+    if (event.key === "0") {
+      resetFlowers();
+    }
+  });
+
   PALETTE = [
     color(255, 69, 58, 150), // deep fiery red with more alpha for vibrancy
     color(255, 117, 56, 130), // dynamic orange-red with softer opacity
@@ -62,7 +75,14 @@ function setup() {
 }
 
 function startMic() {
-  mic.start();
+  userStartAudio()
+    .then(() => {
+      mic.start();
+      console.log("Microphone started");
+    })
+    .catch((err) => {
+      console.error("Microphone access denied:", err);
+    });
 }
 
 function addSomeFlowers() {
@@ -210,19 +230,6 @@ function resetFlowers() {
 function toggleMic() {
   micOn = !micOn;
 }
-
-document.addEventListener("keydown", (event) => {
-  if (firstStart) {
-    startMic();
-    firstStart = false;
-  }
-  if (event.key === " ") {
-    toggleMic();
-  }
-  if (event.key === "0") {
-    resetFlowers();
-  }
-});
 
 function mousePressed() {
   if (firstStart) {
